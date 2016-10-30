@@ -5,11 +5,11 @@ import (
 	"os"
 	"path/filepath"
 
-	"github.com/schollz/gontributions/util"
-	"github.com/schollz/gontributions/vcs/git"
-	"github.com/schollz/gontributions/vcs/mediawiki"
-	"github.com/schollz/gontributions/vcs/obs"
-	"github.com/schollz/gontributions/vcs/wikipedia"
+	"github.com/jubalh/gontributions/util"
+	"github.com/jubalh/gontributions/vcs/git"
+	"github.com/jubalh/gontributions/vcs/mediawiki"
+	"github.com/jubalh/gontributions/vcs/obs"
+	"github.com/jubalh/gontributions/vcs/wikipedia"
 )
 
 // From contributions.go

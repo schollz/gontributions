@@ -7,7 +7,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/schollz/gontributions/util"
+	"github.com/jubalh/gontributions/util"
 )
 
 // RepoData holds the URL of a repository,
