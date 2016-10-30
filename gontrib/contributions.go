@@ -9,6 +9,7 @@ import (
 	"github.com/jubalh/gontributions/vcs/git"
 	"github.com/jubalh/gontributions/vcs/mediawiki"
 	"github.com/jubalh/gontributions/vcs/obs"
+	"github.com/jubalh/gontributions/vcs/wikipedia"
 )
 
 // From contributions.go
@@ -17,12 +18,13 @@ var PullSources bool
 // Project hold all important information
 // about a project.
 type Project struct {
-	Name        string
-	Description string
-	URL         string
-	Gitrepos    []string
-	MediaWikis  []mediawiki.MediaWiki
-	Obs         []obs.OpenBuildService
+	Name           string
+	Description    string
+	URL            string
+	Gitrepos       []string
+	MediaWikis     []mediawiki.MediaWiki
+	WikipediaWikis []wikipedia.Wikipedia
+	Obs            []obs.OpenBuildService
 }
 
 // Configuration holds the users E-Mail adresses
@@ -74,6 +76,34 @@ func scanWiki(project Project, emails []string, contributions []Contribution) in
 		util.PrintInfoF("Working on MediaWiki %s as %s", util.PI_TASK, wiki.BaseUrl, wiki.User)
 
 		wikiCount, err := mediawiki.GetUserEdits(wiki.BaseUrl, wiki.User)
+		if err != nil {
+			switch err.Error() {
+			case "Not a valid URL":
+				util.PrintInfo(err.Error(), util.PI_MILD_ERROR)
+				break
+			case "Not able to HTTP Get",
+				"Not able to decode JSON",
+				"Did not get a 'user' returned":
+				util.PrintInfo(err.Error(), util.PI_ERROR)
+				break
+			}
+		}
+
+		if wikiCount != 0 {
+			util.PrintInfoF("%d edits", util.PI_RESULT, wikiCount)
+			sum += wikiCount
+		}
+	}
+	return sum
+}
+
+// scanWikipedia is a helper function for ScanContributions which takes care of the Wikipedia part
+func scanWikipedia(project Project, emails []string, contributions []Contribution) int {
+	var sum int
+	for _, wiki := range project.WikipediaWikis {
+		util.PrintInfoF("Working on Wikipedia %s as %s", util.PI_TASK, wiki.Page, wiki.User)
+
+		wikiCount, err := wikipedia.GetUserEdits(wiki.Page, wiki.User)
 		if err != nil {
 			switch err.Error() {
 			case "Not a valid URL":
@@ -171,8 +201,9 @@ func ScanContributions(configuration Configuration) ([]Contribution, error) {
 			sumCount += sum
 		}
 
-		sum := scanWiki(project, configuration.Emails, contributions)
-		sumCount += sum
+		sumCount += scanWiki(project, configuration.Emails, contributions)
+
+		sumCount += scanWikipedia(project, configuration.Emails, contributions)
 
 		if binary["osc"] {
 			sum, err := scanOBS(project, configuration.Emails, contributions)
