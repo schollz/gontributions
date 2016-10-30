@@ -4,8 +4,8 @@ import (
 	"os"
 	"testing"
 
-	"github.com/jubalh/gontributions/vcs/mediawiki"
-	"github.com/jubalh/gontributions/vcs/obs"
+	"github.com/schollz/gontributions/vcs/mediawiki"
+	"github.com/schollz/gontributions/vcs/obs"
 )
 
 func TestScanContributions(t *testing.T) {

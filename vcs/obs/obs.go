@@ -9,7 +9,7 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/jubalh/gontributions/util"
+	"github.com/schollz/gontributions/util"
 )
 
 // ErrNoChangesFileFound is an error used when there is no .changes file

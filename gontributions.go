@@ -14,10 +14,10 @@ import (
 
 	"gopkg.in/urfave/cli.v1"
 
-	"github.com/jubalh/gontributions/gontrib"
-	"github.com/jubalh/gontributions/util"
-	"github.com/jubalh/gontributions/vcs/mediawiki"
-	"github.com/jubalh/gontributions/vcs/obs"
+	"github.com/schollz/gontributions/gontrib"
+	"github.com/schollz/gontributions/util"
+	"github.com/schollz/gontributions/vcs/mediawiki"
+	"github.com/schollz/gontributions/vcs/obs"
 )
 
 // TemplateFill is there so it can easily be extended without breaking old templates/layouts
